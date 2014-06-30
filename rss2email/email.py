@@ -32,6 +32,7 @@ from email.mime.text import MIMEText as _MIMEText
 from email.utils import formataddr as _formataddr
 from email.utils import parseaddr as _parseaddr
 import mailbox as _mailbox
+from mailbox import NoSuchMailboxError
 import imaplib as _imaplib
 import io as _io
 import smtplib as _smtplib
@@ -206,7 +207,11 @@ def maildir_send(message, config=None, section='DEFAULT'):
         config = _config.CONFIG
     path = config.get(section, 'maildir-path')
     mailbox = config.get(section, 'maildir-mailbox')
-    maildir = _mailbox.Maildir(_os.path.join(path, mailbox))
+    maildir = _mailbox.Maildir(path)
+    try:
+        maildir = maildir.get_folder(mailbox)
+    except NoSuchMailboxError:
+        maildir = maildir.add_folder(mailbox)
     maildir.add(message)
 
 def _decode_header(header):
