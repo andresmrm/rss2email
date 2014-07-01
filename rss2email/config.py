@@ -85,6 +85,8 @@ CONFIG['DEFAULT'] = _collections.OrderedDict((
         ('proxy', ''),
         # Set the timeout (in seconds) for feed server response
         ('feed-timeout', str(60)),
+        # Set User Agent
+        ('user-agent', ''),
 
         ### Processing
         # True: Fetch, process, and email feeds.
