@@ -35,6 +35,9 @@ import configparser as _configparser
 
 import html2text as _html2text
 
+from . import __url__
+from . import __version__
+
 
 class Config (_configparser.ConfigParser):
     def __init__(self, dict_type=_collections.OrderedDict,
@@ -87,6 +90,8 @@ CONFIG['DEFAULT'] = _collections.OrderedDict((
         ('proxy', ''),
         # Set the timeout (in seconds) for feed server response
         ('feed-timeout', str(60)),
+        # Set User Agent
+        ('user-agent', 'rss2email/{} ({})'.format(__version__, __url__)),
 
         ### Processing
         # True: Fetch, process, and email feeds.
