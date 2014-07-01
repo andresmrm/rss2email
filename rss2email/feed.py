@@ -813,7 +813,18 @@ class Feed (object):
         """
         if not self.to:
             raise _error.NoToEmailAddress(feed=self)
-        parsed = self._fetch()
+        
+        if self.section in self.config:
+            config = self.config[self.section]
+        else:
+            config = self.config['DEFAULT']
+        agent = config['user-agent']
+        if agent:
+            _feedparser.USER_AGENT = agent
+            parsed = self._fetch()
+            _feedparser.USER_AGENT = _USER_AGENT
+        else:
+            parsed = self._fetch()
 
         if self.digest:
             digest = self._new_digest()
